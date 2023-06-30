@@ -1,6 +1,6 @@
-package com.example.ourdiary.domain.diary;
+package com.example.ourdiary.diary;
 
-import com.example.ourdiary.domain.user.User;
+import com.example.ourdiary.user.domain.User;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;

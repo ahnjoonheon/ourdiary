@@ -1,4 +1,4 @@
-package com.example.ourdiary.domain.tag;
+package com.example.ourdiary.tag;
 
 import jakarta.persistence.*;
 import lombok.Getter;

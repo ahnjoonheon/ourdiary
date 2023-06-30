@@ -1,4 +1,4 @@
-package com.example.ourdiary.domain.entry;
+package com.example.ourdiary.entry;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;

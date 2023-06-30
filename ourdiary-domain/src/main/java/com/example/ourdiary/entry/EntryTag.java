@@ -1,6 +1,6 @@
-package com.example.ourdiary.domain.entry;
+package com.example.ourdiary.entry;
 
-import com.example.ourdiary.domain.tag.Tag;
+import com.example.ourdiary.tag.Tag;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
