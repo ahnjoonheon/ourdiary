@@ -1,92 +1,112 @@
--- users Table
-CREATE TABLE user (
-    user_id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(100) NOT NULL,
-    email VARCHAR(100) NOT NULL UNIQUE,
-    password VARCHAR(200) NOT NULL,
-    profile_pic VARCHAR(200),
-    nickname VARCHAR(50) NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    last_login_at TIMESTAMP
+-- 사용자 관리
+CREATE TABLE users
+(
+    user_id          BIGINT PRIMARY KEY AUTO_INCREMENT,
+    username         VARCHAR(50)  NOT NULL,
+    email            VARCHAR(100) NOT NULL,
+    password         VARCHAR(100) NOT NULL,
+    profile_pic      VARCHAR(200),
+    created_at       DATETIME DEFAULT CURRENT_TIMESTAMP,
+    created_by       BIGINT,
+    last_modified_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    last_modified_by BIGINT
 );
 
--- diary_books Table
-CREATE TABLE diary_book (
-    diary_book_id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(100) NOT NULL,
-    description VARCHAR(200) NOT NULL,
+ALTER TABLE users
+    ADD CONSTRAINT uk_users_email UNIQUE (email);
+
+-- 일기장 관리
+CREATE TABLE diaries
+(
+    diary_id         BIGINT PRIMARY KEY AUTO_INCREMENT,
+    user_id          BIGINT       NOT NULL,
+    diary_name       VARCHAR(100) NOT NULL,
+    description      VARCHAR(500),
     background_image VARCHAR(200),
-    background_color VARCHAR(7),
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    theme            VARCHAR(50),
+    created_at       DATETIME DEFAULT CURRENT_TIMESTAMP,
+    created_by       BIGINT,
+    last_modified_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    last_modified_by BIGINT
 );
 
--- email_verifications Table
-CREATE TABLE email_verification (
-    verification_id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    user_id BIGINT,
-    verification_code VARCHAR(50) NOT NULL,
-    expires_at TIMESTAMP NOT NULL
+CREATE TABLE diary_participants
+(
+    participant_id   BIGINT PRIMARY KEY AUTO_INCREMENT,
+    diary_id         BIGINT NOT NULL,
+    user_id          BIGINT NOT NULL,
+    created_at       DATETIME DEFAULT CURRENT_TIMESTAMP,
+    created_by       BIGINT,
+    last_modified_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    last_modified_by BIGINT
 );
 
--- diary_book_members Table
-CREATE TABLE diary_book_member (
-    diary_book_id BIGINT,
-    user_id BIGINT,
-    role VARCHAR(20) NOT NULL,
-    PRIMARY KEY (diary_book_id, user_id)
+CREATE TABLE entries
+(
+    entry_id         BIGINT PRIMARY KEY AUTO_INCREMENT,
+    diary_id         BIGINT       NOT NULL,
+    title            VARCHAR(200) NOT NULL,
+    content          TEXT,
+    tags             VARCHAR(500),
+    created_at       DATETIME DEFAULT CURRENT_TIMESTAMP,
+    created_by       BIGINT,
+    last_modified_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    last_modified_by BIGINT
 );
 
--- diaries Table
-CREATE TABLE diary (
-    diary_id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    diary_book_id BIGINT,
-    user_id BIGINT,
-    title VARCHAR(100) NOT NULL,
-    content TEXT NOT NULL,
-    tags VARCHAR(100),
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP
+CREATE TABLE comments
+(
+    comment_id       BIGINT PRIMARY KEY AUTO_INCREMENT,
+    entry_id         BIGINT NOT NULL,
+    user_id          BIGINT NOT NULL,
+    comment_text     TEXT,
+    created_at       DATETIME DEFAULT CURRENT_TIMESTAMP,
+    created_by       BIGINT,
+    last_modified_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    last_modified_by BIGINT
 );
 
--- diary_photos Table
-CREATE TABLE diary_photo (
-    photo_id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    diary_id BIGINT,
-    photo_url VARCHAR(200) NOT NULL,
-    description VARCHAR(100),
-    tags VARCHAR(100),
-    uploaded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+CREATE TABLE tags
+(
+    tag_id           BIGINT PRIMARY KEY AUTO_INCREMENT,
+    tag_name         VARCHAR(50) NOT NULL,
+    created_at       DATETIME DEFAULT CURRENT_TIMESTAMP,
+    created_by       BIGINT,
+    last_modified_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    last_modified_by BIGINT
 );
 
--- comments Table
-CREATE TABLE comment (
-    comment_id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    diary_id BIGINT,
-    user_id BIGINT,
-    content TEXT NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP
+CREATE TABLE entry_tags
+(
+    entry_id         BIGINT NOT NULL,
+    tag_id           BIGINT NOT NULL,
+    PRIMARY KEY (entry_id, tag_id),
+    created_at       DATETIME DEFAULT CURRENT_TIMESTAMP,
+    created_by       BIGINT,
+    last_modified_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    last_modified_by BIGINT
 );
 
--- emotion_reports Table
-CREATE TABLE emotion_report (
-    report_id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    diary_id BIGINT,
-    emotion_data JSON NOT NULL,
-    generated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+CREATE TABLE sentiment_report
+(
+    report_id          BIGINT PRIMARY KEY AUTO_INCREMENT,
+    entry_id           BIGINT        NOT NULL,
+    sentiment_category VARCHAR(50)   NOT NULL,
+    sentiment_score    DECIMAL(5, 4) NOT NULL,
+    created_at         DATETIME DEFAULT CURRENT_TIMESTAMP,
+    created_by         BIGINT,
+    last_modified_at   DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    last_modified_by   BIGINT
 );
 
--- stickers Table
-CREATE TABLE sticker (
-    sticker_id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(50) NOT NULL,
-    sticker_url VARCHAR(200) NOT NULL,
-    is_dynamic BOOLEAN NOT NULL
-);
-
--- diary_stickers Table
-CREATE TABLE diary_sticker (
-    diary_id BIGINT,
-    sticker_id BIGINT,
-    PRIMARY KEY (diary_id, sticker_id)
+CREATE TABLE app_lock
+(
+    lock_id          BIGINT PRIMARY KEY AUTO_INCREMENT,
+    user_id          BIGINT       NOT NULL,
+    lock_type        VARCHAR(20)  NOT NULL,
+    lock_value       VARCHAR(200) NOT NULL,
+    created_at       DATETIME DEFAULT CURRENT_TIMESTAMP,
+    created_by       BIGINT,
+    last_modified_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    last_modified_by BIGINT
 );
