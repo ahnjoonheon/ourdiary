@@ -31,6 +31,6 @@ public class UserRestController {
 
     @GetMapping("/autocomplete")
     public ResponseEntity<List<UserAutocompleteResponse>> getUser(UserAutocompleteRequest userAutocompleteRequest) {
-        return ResponseEntity.ok(userMapper.toUserAutocompleteResponse(userService.getUser(userMapper.toUser(userAutocompleteRequest))));
+        return ResponseEntity.ok(userMapper.toUserAutocompleteResponse(userService.getUser(userAutocompleteRequest.userAttribute())));
     }
 }

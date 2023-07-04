@@ -7,5 +7,5 @@ import java.util.List;
 public interface UserService {
     User registerUser(User user);
 
-    List<User> getUser(User user);
+    List<User> getUser(String userAttribute);
 }

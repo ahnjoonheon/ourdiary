@@ -4,6 +4,7 @@ import com.example.ourdiary.user.entity.QUser;
 import com.example.ourdiary.user.entity.User;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 
@@ -15,16 +16,10 @@ public class UserQueryDslRepositoryImpl implements UserQueryDslRepository {
         this.jpaQueryFactory = jpaQueryFactory;
     }
 
-    public List<User> findAllBy(User user) {
+    public List<User> findAllBy(String userAttribute) {
         BooleanBuilder builder = new BooleanBuilder();
-        if (user.getUsername() != null) {
-            builder.or(QUser.user.nickname.contains(user.getUsername()).or(QUser.user.username.contains(user.getUsername())).or(QUser.user.email.contains(user.getUsername())));
-        }
-        if (user.getNickname() != null) {
-            builder.or(QUser.user.nickname.contains(user.getNickname()).or(QUser.user.username.contains(user.getNickname())).or(QUser.user.email.contains(user.getNickname())));
-        }
-        if (user.getEmail() != null) {
-            builder.or(QUser.user.nickname.contains(user.getEmail()).or(QUser.user.username.contains(user.getEmail())).or(QUser.user.email.contains(user.getEmail())));
+        if (StringUtils.hasText(userAttribute)) {
+            builder.and(QUser.user.nickname.contains(userAttribute).or(QUser.user.username.contains(userAttribute)).or(QUser.user.email.contains(userAttribute)));
         }
 
         return jpaQueryFactory.selectFrom(QUser.user)
