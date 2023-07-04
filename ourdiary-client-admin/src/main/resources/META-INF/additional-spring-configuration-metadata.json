@@ -1,0 +1,18 @@
+{
+  "properties": [
+    {
+      "name": "ourdiary.datasource.url",
+      "type": "java.lang.String",
+      "description": "Description for ourdiary.datasource.url."
+    },
+    {
+      "name": "ourdiary.datasource.username",
+      "type": "java.lang.String",
+      "description": "Description for ourdiary.datasource.username."
+    },
+    {
+      "name": "ourdiary.datasource.password",
+      "type": "java.lang.String",
+      "description": "Description for ourdiary.datasource.password."
+    }
+  ] }

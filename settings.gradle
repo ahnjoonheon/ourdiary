@@ -1,7 +1,9 @@
 rootProject.name = 'ourdiary'
+include(':ourdiary-common')
+include(':ourdiary-domain')
 include(':ourdiary-client-admin')
 include(':ourdiary-client-front')
-include(':ourdiary-domain')
-include(':ourdiary-common')
+
+
 
 
