@@ -1,5 +1,6 @@
 package com.example.ourdiary.user.entity;
 
+import com.example.ourdiary.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -9,7 +10,7 @@ import lombok.*;
 @Table(name = "users", indexes = {
         @Index(name = "uk_users_email", columnList = "email", unique = true)
 })
-public class User {
+public class User extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id", nullable = false)

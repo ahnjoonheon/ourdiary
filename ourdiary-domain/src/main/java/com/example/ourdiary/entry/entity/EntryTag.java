@@ -2,11 +2,13 @@ package com.example.ourdiary.entry.entity;
 
 import com.example.ourdiary.tag.entity.Tag;
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
-@Setter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(name = "entry_tags")
 public class EntryTag {

@@ -3,11 +3,13 @@ package com.example.ourdiary.comment.entity;
 import com.example.ourdiary.user.entity.User;
 import com.example.ourdiary.entry.entity.Entry;
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
-@Setter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(name = "comments")
 public class Comment {

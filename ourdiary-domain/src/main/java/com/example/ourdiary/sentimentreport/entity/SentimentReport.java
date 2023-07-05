@@ -2,11 +2,13 @@ package com.example.ourdiary.sentimentreport.entity;
 
 import com.example.ourdiary.entry.entity.Entry;
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
-@Setter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(name = "sentiment_report")
 public class SentimentReport {

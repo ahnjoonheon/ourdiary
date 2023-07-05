@@ -11,6 +11,11 @@ public class QueryDslConfiguration {
     @PersistenceContext
     private EntityManager entityManager;
 
+    /**
+     * Register JPAQueryFactory as a Bean.
+     * JPAQueryFactory 를 Bean 으로 등록한다.
+     * @return JPAQueryFactory
+     */
     @Bean
     public JPAQueryFactory jpaQueryFactory(){
         return new JPAQueryFactory(entityManager);

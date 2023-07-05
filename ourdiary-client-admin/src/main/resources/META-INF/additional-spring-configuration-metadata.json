@@ -3,16 +3,16 @@
     {
       "name": "ourdiary.datasource.url",
       "type": "java.lang.String",
-      "description": "Description for ourdiary.datasource.url."
+      "description": "datasource url."
     },
     {
       "name": "ourdiary.datasource.username",
       "type": "java.lang.String",
-      "description": "Description for ourdiary.datasource.username."
+      "description": "datasource username."
     },
     {
       "name": "ourdiary.datasource.password",
       "type": "java.lang.String",
-      "description": "Description for ourdiary.datasource.password."
+      "description": "datasource password."
     }
   ] }

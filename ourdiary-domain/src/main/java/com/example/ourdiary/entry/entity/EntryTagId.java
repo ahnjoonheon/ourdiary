@@ -2,7 +2,9 @@ package com.example.ourdiary.entry.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.Hibernate;
 
@@ -11,7 +13,7 @@ import java.io.Serializable;
 import java.util.Objects;
 
 @Getter
-@Setter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Embeddable
 public class EntryTagId implements Serializable {
     @Serial

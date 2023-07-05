@@ -1,11 +1,10 @@
 package com.example.ourdiary.admin.api.user.dto;
 
-
-public record UserAutocompleteResponse (
+public record UserSearchResponse(
         Long id,
         String username,
-        String email,
         String nickname,
+        String email,
         String profilePic
-) {
+        ) {
 }

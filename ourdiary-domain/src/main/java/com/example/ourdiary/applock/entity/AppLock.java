@@ -2,11 +2,13 @@ package com.example.ourdiary.applock.entity;
 
 import com.example.ourdiary.user.entity.User;
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
-@Setter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(name = "app_lock")
 public class AppLock {
