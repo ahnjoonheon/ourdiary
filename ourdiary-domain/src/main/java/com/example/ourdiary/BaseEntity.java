@@ -1,6 +1,6 @@
 package com.example.ourdiary;
 
-import com.example.ourdiary.user.entity.User;
+import com.example.ourdiary.member.entity.Member;
 import jakarta.persistence.*;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
@@ -21,7 +21,7 @@ public abstract class BaseEntity {
     @CreatedBy
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "created_by",updatable = false)
-    private User createdBy;
+    private Member createdBy;
 
     @LastModifiedDate
     private LocalDateTime lastModifiedAt;
@@ -29,6 +29,6 @@ public abstract class BaseEntity {
     @LastModifiedBy
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "last_modified_by")
-    private User lastModifiedBy;
+    private Member lastModifiedBy;
 
 }

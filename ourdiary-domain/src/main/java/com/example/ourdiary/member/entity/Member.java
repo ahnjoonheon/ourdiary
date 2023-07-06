@@ -1,23 +1,25 @@
-package com.example.ourdiary.user.entity;
+package com.example.ourdiary.member.entity;
 
 import com.example.ourdiary.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-@Table(name = "users", indexes = {
-        @Index(name = "uk_users_email", columnList = "email", unique = true)
+@Table(name = "member", indexes = {
+        @Index(name = "uk_member_email", columnList = "email", unique = true)
 })
-public class User extends BaseEntity {
+public class Member extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_id", nullable = false)
+    @Column(name = "id", nullable = false)
     private Long id;
 
-    @Column(name = "username", nullable = false, length = 50)
-    private String username;
+    @Column(name = "name", nullable = false, length = 50)
+    private String name;
 
     @Column(name = "email", nullable = false, length = 100)
     private String email;
@@ -31,13 +33,17 @@ public class User extends BaseEntity {
     @Column(name = "nickname", length = 50)
     private String nickname;
 
+    @OneToMany(mappedBy = "member")
+    private List<MemberAuthority> memberAuthorities;
+
     @Builder
-    public User(Long id, String username, String email, String password, String profilePic, String nickname) {
+    public Member(Long id, String name, String email, String password, String profilePic, String nickname, List<MemberAuthority> memberAuthorities) {
         this.id = id;
-        this.username = username;
+        this.name = name;
         this.email = email;
         this.password = password;
         this.profilePic = profilePic;
         this.nickname = nickname;
+        this.memberAuthorities = memberAuthorities;
     }
 }

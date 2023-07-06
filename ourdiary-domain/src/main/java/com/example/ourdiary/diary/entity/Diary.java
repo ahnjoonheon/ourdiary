@@ -1,11 +1,10 @@
 package com.example.ourdiary.diary.entity;
 
-import com.example.ourdiary.user.entity.User;
+import com.example.ourdiary.member.entity.Member;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -19,7 +18,7 @@ public class Diary {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    private Member member;
 
     @Column(name = "diary_name", nullable = false, length = 100)
     private String diaryName;

@@ -1,26 +1,27 @@
 package com.example.ourdiary.admin.api.user.mapper;
 
 import com.example.ourdiary.admin.api.user.dto.*;
-import com.example.ourdiary.user.entity.User;
+import com.example.ourdiary.member.entity.Member;
 import org.mapstruct.*;
-import org.springframework.data.domain.Page;
 
 import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface UserMapper {
 
+    @Mapping(target = "memberAuthorities", ignore = true)
     @Mapping(target = "id", ignore = true)
-    User toUser(RegisterUserRequest registerUserRequest);
+    Member toMember(RegisterMemberRequest registerMemberRequest);
 
-    RegisterUserResponse toRegisterUserResponse(User user);
+    RegisterMemberResponse toRegisterMemberResponse(Member member);
 
-    List<UserAutocompleteResponse> toUserAutocompleteResponse(List<User> users);
+    List<MemberAutocompleteResponse> toMemberAutocompleteResponse(List<Member> members);
 
-    UserSearchResponse toUserSearchResponse(User user);
+    MemberSearchResponse toMemberSearchResponse(Member member);
 
+    @Mapping(target = "memberAuthorities", ignore = true)
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "password", ignore = true)
     @Mapping(target = "profilePic", ignore = true)
-    User toUser(UserSearchRequest userSearchRequest);
+    Member toMember(MemberSearchRequest memberSearchRequest);
 }

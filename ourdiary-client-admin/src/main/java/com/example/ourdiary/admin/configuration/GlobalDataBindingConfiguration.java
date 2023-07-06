@@ -1,6 +1,5 @@
 package com.example.ourdiary.admin.configuration;
 
-import com.example.ourdiary.admin.api.user.dto.UserAutocompleteResponse;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.ControllerAdvice;

@@ -1,12 +1,11 @@
 package com.example.ourdiary.comment.entity;
 
-import com.example.ourdiary.user.entity.User;
+import com.example.ourdiary.member.entity.Member;
 import com.example.ourdiary.entry.entity.Entry;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -24,7 +23,7 @@ public class Comment {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    private Member member;
 
     @Lob
     @Column(name = "comment_text")

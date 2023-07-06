@@ -1,4 +1,4 @@
-package com.example.ourdiary.user.dto;
+package com.example.ourdiary.member.dto;
 
 import com.querydsl.core.annotations.QueryProjection;
 

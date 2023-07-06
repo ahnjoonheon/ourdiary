@@ -2,7 +2,7 @@ package com.example.ourdiary.admin.api.user.controller;
 
 import com.example.ourdiary.admin.api.user.dto.*;
 import com.example.ourdiary.admin.api.user.mapper.UserMapper;
-import com.example.ourdiary.user.service.UserService;
+import com.example.ourdiary.member.service.MemberService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -14,27 +14,27 @@ import java.util.List;
 @RequestMapping("/api/user")
 public class UserRestController {
 
-    private final UserService userService;
+    private final MemberService memberService;
 
     private final UserMapper userMapper;
 
-    public UserRestController(UserService userService, UserMapper userMapper) {
-        this.userService = userService;
+    public UserRestController(MemberService memberService, UserMapper userMapper) {
+        this.memberService = memberService;
         this.userMapper = userMapper;
     }
 
     @PostMapping
-    public ResponseEntity<RegisterUserResponse> registerUser(@RequestBody RegisterUserRequest registerUserRequest) {
-        return ResponseEntity.ok(userMapper.toRegisterUserResponse(userService.registerUser(userMapper.toUser(registerUserRequest))));
+    public ResponseEntity<RegisterMemberResponse> registerUser(@RequestBody RegisterMemberRequest registerMemberRequest) {
+        return ResponseEntity.ok(userMapper.toRegisterMemberResponse(memberService.registerUser(userMapper.toMember(registerMemberRequest))));
     }
 
     @GetMapping("/autocomplete")
-    public ResponseEntity<List<UserAutocompleteResponse>> searchUserBy(UserAutocompleteRequest userAutocompleteRequest) {
-        return ResponseEntity.ok(userMapper.toUserAutocompleteResponse(userService.searchUserBy(userAutocompleteRequest.userAttribute())));
+    public ResponseEntity<List<MemberAutocompleteResponse>> searchUserBy(UserAutocompleteRequest userAutocompleteRequest) {
+        return ResponseEntity.ok(userMapper.toMemberAutocompleteResponse(memberService.searchUserBy(userAutocompleteRequest.userAttribute())));
     }
 
     @GetMapping
-    public ResponseEntity<Page<UserSearchResponse>> searchUserBy(UserSearchRequest userSearchRequest, Pageable pageable) {
-        return ResponseEntity.ok(userService.searchUserBy(userMapper.toUser(userSearchRequest), pageable).map(userMapper::toUserSearchResponse));
+    public ResponseEntity<Page<MemberSearchResponse>> searchUserBy(MemberSearchRequest memberSearchRequest, Pageable pageable) {
+        return ResponseEntity.ok(memberService.searchUserBy(userMapper.toMember(memberSearchRequest), pageable).map(userMapper::toMemberSearchResponse));
     }
 }

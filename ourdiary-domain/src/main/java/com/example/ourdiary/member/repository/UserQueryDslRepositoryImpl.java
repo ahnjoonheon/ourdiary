@@ -1,7 +1,7 @@
-package com.example.ourdiary.user.repository;
+package com.example.ourdiary.member.repository;
 
-import com.example.ourdiary.user.entity.QUser;
-import com.example.ourdiary.user.entity.User;
+import com.example.ourdiary.member.entity.Member;
+import com.example.ourdiary.member.entity.QMember;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -22,12 +22,12 @@ public class UserQueryDslRepositoryImpl implements UserQueryDslRepository {
     }
 
     @Override
-    public List<User> findTop5By(String userAttribute) {
+    public List<Member> findTop5By(String userAttribute) {
         BooleanBuilder booleanBuilder = new BooleanBuilder();
-        booleanBuilder.or(containsUsername(userAttribute));
+        booleanBuilder.or(containsName(userAttribute));
         booleanBuilder.or(containsEmail(userAttribute));
         booleanBuilder.or(containsNickname(userAttribute));
-        return jpaQueryFactory.selectFrom(QUser.user)
+        return jpaQueryFactory.selectFrom(QMember.member)
                 .where(booleanBuilder)
                 .limit(5)
                 .fetch();
@@ -37,45 +37,45 @@ public class UserQueryDslRepositoryImpl implements UserQueryDslRepository {
         if (StringUtils.isEmpty(email)) {
             return null;
         }
-        return QUser.user.email.containsIgnoreCase(email);
+        return QMember.member.email.containsIgnoreCase(email);
     }
 
-    private static BooleanExpression containsUsername(String username) {
+    private static BooleanExpression containsName(String username) {
         if (StringUtils.isEmpty(username)) {
             return null;
         }
-        return QUser.user.username.containsIgnoreCase(username);
+        return QMember.member.name.containsIgnoreCase(username);
     }
 
     private static BooleanExpression containsNickname(String nickname) {
         if (StringUtils.isEmpty(nickname)) {
             return null;
         }
-        return QUser.user.nickname.containsIgnoreCase(nickname);
+        return QMember.member.nickname.containsIgnoreCase(nickname);
     }
 
     @Override
-    public Page<User> findBy(User user, Pageable pageable) {
-        List<User> users = getUsersBy(user, pageable);
-        Long count = getCountBy(user);
-        return new PageImpl<>(users, pageable, count);
+    public Page<Member> findBy(Member member, Pageable pageable) {
+        List<Member> members = getUsersBy(member, pageable);
+        Long count = getCountBy(member);
+        return new PageImpl<>(members, pageable, count);
     }
 
-    private Long getCountBy(User user) {
-        return jpaQueryFactory.select(QUser.user.count())
-                .from(QUser.user)
-                .where(containsUsername(user.getUsername()),
-                        containsNickname(user.getNickname()),
-                        containsEmail(user.getEmail())
+    private Long getCountBy(Member member) {
+        return jpaQueryFactory.select(QMember.member.count())
+                .from(QMember.member)
+                .where(containsName(member.getName()),
+                        containsNickname(member.getNickname()),
+                        containsEmail(member.getEmail())
                 )
                 .fetchOne();
     }
 
-    private List<User> getUsersBy(User user, Pageable pageable) {
-        return jpaQueryFactory.selectFrom(QUser.user)
-                .where(containsUsername(user.getUsername()),
-                        containsNickname(user.getNickname()),
-                        containsEmail(user.getEmail())
+    private List<Member> getUsersBy(Member member, Pageable pageable) {
+        return jpaQueryFactory.selectFrom(QMember.member)
+                .where(containsName(member.getName()),
+                        containsNickname(member.getNickname()),
+                        containsEmail(member.getEmail())
                 )
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
