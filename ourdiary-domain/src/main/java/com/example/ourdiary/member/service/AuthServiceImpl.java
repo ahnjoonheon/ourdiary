@@ -1,8 +1,6 @@
 package com.example.ourdiary.member.service;
 
-import com.example.ourdiary.constant.Authority;
 import com.example.ourdiary.member.entity.Member;
-import com.example.ourdiary.member.entity.MemberAuthority;
 import com.example.ourdiary.member.repository.UserRepository;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -11,7 +9,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service

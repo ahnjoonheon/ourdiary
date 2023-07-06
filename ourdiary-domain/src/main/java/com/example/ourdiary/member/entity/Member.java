@@ -2,7 +2,10 @@ package com.example.ourdiary.member.entity;
 
 import com.example.ourdiary.BaseEntity;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 

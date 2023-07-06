@@ -2,7 +2,8 @@ package com.example.ourdiary.admin.api.user.mapper;
 
 import com.example.ourdiary.admin.api.user.dto.*;
 import com.example.ourdiary.member.entity.Member;
-import org.mapstruct.*;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
 import java.util.List;
 
