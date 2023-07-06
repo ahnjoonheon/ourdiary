@@ -21,5 +21,6 @@ public interface UserMapper {
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "password", ignore = true)
+    @Mapping(target = "profilePic", ignore = true)
     User toUser(UserSearchRequest userSearchRequest);
 }

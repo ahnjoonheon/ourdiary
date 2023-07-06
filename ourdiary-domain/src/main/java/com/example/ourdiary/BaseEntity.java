@@ -1,13 +1,14 @@
 package com.example.ourdiary;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.EntityListeners;
-import jakarta.persistence.MappedSuperclass;
+import com.example.ourdiary.user.entity.User;
+import jakarta.persistence.*;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import java.time.LocalDateTime;
 
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
@@ -15,16 +16,19 @@ public abstract class BaseEntity {
 
     @CreatedDate
     @Column(updatable = false)
-    private Long createdAt;
+    private LocalDateTime createdAt;
 
     @CreatedBy
-    @Column(updatable = false)
-    private String createdBy;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "created_by",updatable = false)
+    private User createdBy;
 
     @LastModifiedDate
-    private Long lastModifiedAt;
+    private LocalDateTime lastModifiedAt;
 
     @LastModifiedBy
-    private String lastModifiedBy;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "last_modified_by")
+    private User lastModifiedBy;
 
 }
