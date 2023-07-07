@@ -14,5 +14,10 @@
       "name": "ourdiary.datasource.password",
       "type": "java.lang.String",
       "description": "datasource password."
+    },
+    {
+      "name": "ourdiary.authorities",
+      "type": "java.util.List<java.lang.String>",
+      "description": "accessible authorities."
     }
   ] }

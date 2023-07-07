@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.InitBinder;
  * RequestBody, PathVariable, RequestParam 등의 데이터 바인딩을 처리하는 클래스
  */
 @ControllerAdvice
-public class GlobalDataBindingConfiguration {
+public class DataBindingConfiguration {
 
     /**
      * convert empty string to null or trim string

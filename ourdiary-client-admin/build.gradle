@@ -27,6 +27,7 @@ jar {
 
 dependencies {
 
+    implementation project(':ourdiary-jwt-security')
     implementation project(':ourdiary-domain')
     implementation project(':ourdiary-common')
 

@@ -18,7 +18,6 @@ public class MemberAuthority {
     @Column(name = "id", nullable = false)
     private Long id;
 
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id", nullable = false)
     private Member member;
@@ -27,7 +26,10 @@ public class MemberAuthority {
     @Column(nullable = false)
     private Authority authority;
 
-
+    public MemberAuthority(Member member, Authority authority) {
+        this.member = member;
+        this.authority = authority;
+    }
 
     public Long getId() {
         return id;

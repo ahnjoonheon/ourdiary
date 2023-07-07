@@ -14,7 +14,6 @@ public class ExceptionHandingConfiguration {
         return new ResponseEntity<>("Invalid Argument: " + ex.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
-
     @ExceptionHandler(Exception.class)
     public ResponseEntity<String> handleGeneralException(Exception ex) {
         return new ResponseEntity<>("An error occurred: " + ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);

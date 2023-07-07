@@ -1,12 +1,20 @@
 package com.example.ourdiary.member.entity;
 
 import com.example.ourdiary.BaseEntity;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
+import java.io.Serial;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 @Getter
@@ -15,7 +23,7 @@ import java.util.List;
 @Table(name = "member", indexes = {
         @Index(name = "uk_member_email", columnList = "email", unique = true)
 })
-public class Member extends BaseEntity {
+public class Member extends BaseEntity implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -37,16 +45,48 @@ public class Member extends BaseEntity {
     private String nickname;
 
     @OneToMany(mappedBy = "member")
-    private List<MemberAuthority> memberAuthorities;
+    private List<MemberAuthority> authorities = new ArrayList<>();
 
     @Builder
-    public Member(Long id, String name, String email, String password, String profilePic, String nickname, List<MemberAuthority> memberAuthorities) {
+    public Member(Long id, String name, String email, String password, String profilePic, String nickname) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.password = password;
         this.profilePic = profilePic;
         this.nickname = nickname;
-        this.memberAuthorities = memberAuthorities;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        if (authorities == null) {
+            return Collections.emptyList();
+        }
+        return authorities.stream().map(authority -> new SimpleGrantedAuthority(authority.getAuthority().name())).toList();
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return false;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return false;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return false;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 }
