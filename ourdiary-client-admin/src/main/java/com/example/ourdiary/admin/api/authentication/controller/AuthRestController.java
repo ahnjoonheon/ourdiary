@@ -1,10 +1,9 @@
 package com.example.ourdiary.admin.api.authentication.controller;
 
+import com.example.ourdiary.admin.api.authentication.mapper.AuthMapper;
 import com.example.ourdiary.admin.api.authentication.dto.LoginRequest;
 import com.example.ourdiary.admin.api.authentication.dto.LoginResponse;
-import com.example.ourdiary.admin.api.authentication.mapper.AuthMapper;
 import com.example.ourdiary.authentication.jwt.JwtTokenProvider;
-import com.example.ourdiary.member.entity.Member;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

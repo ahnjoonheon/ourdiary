@@ -1,7 +1,7 @@
 package com.example.ourdiary.member.service;
 
 import com.example.ourdiary.member.entity.Member;
-import com.example.ourdiary.member.repository.UserRepository;
+import com.example.ourdiary.member.repository.MemberRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -11,24 +11,24 @@ import java.util.List;
 @Service
 public class MemberServiceImpl implements MemberService {
 
-    private final UserRepository userRepository;
+    private final MemberRepository memberRepository;
 
-    public MemberServiceImpl(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public MemberServiceImpl(MemberRepository memberRepository) {
+        this.memberRepository = memberRepository;
     }
 
     @Override
     public Member registerUser(Member member) {
-        return userRepository.save(member);
+        return memberRepository.save(member);
     }
 
     @Override
     public List<Member> searchUserBy(String userAttribute) {
-        return userRepository.findTop5By(userAttribute);
+        return memberRepository.findTop5By(userAttribute);
     }
 
     @Override
     public Page<Member> searchUserBy(Member member, Pageable pageable) {
-        return userRepository.findBy(member, pageable);
+        return memberRepository.findBy(member, pageable);
     }
 }

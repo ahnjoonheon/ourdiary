@@ -13,11 +13,11 @@ import org.springframework.data.domain.Pageable;
 import java.util.List;
 
 
-public class UserQueryDslRepositoryImpl implements UserQueryDslRepository {
+public class MemberQueryDslRepositoryImpl implements MemberQueryDslRepository {
 
     private final JPAQueryFactory jpaQueryFactory;
 
-    public UserQueryDslRepositoryImpl(JPAQueryFactory jpaQueryFactory) {
+    public MemberQueryDslRepositoryImpl(JPAQueryFactory jpaQueryFactory) {
         this.jpaQueryFactory = jpaQueryFactory;
     }
 

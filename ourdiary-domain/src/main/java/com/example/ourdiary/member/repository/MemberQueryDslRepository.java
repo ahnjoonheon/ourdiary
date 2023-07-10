@@ -6,7 +6,7 @@ import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
-public interface UserQueryDslRepository {
+public interface MemberQueryDslRepository {
     List<Member> findTop5By(String userAttribute);
 
     Page<Member> findBy(Member member, Pageable pageable);

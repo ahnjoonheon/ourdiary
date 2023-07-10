@@ -16,8 +16,18 @@
       "description": "datasource password."
     },
     {
-      "name": "ourdiary.authorities",
+      "name": "ourdiary.system-allowed-authorities",
       "type": "java.util.List<java.lang.String>",
-      "description": "accessible authorities."
+      "description": "Allowed authorities for the system.Authorities declared in com.example.ourdiary.constants.Authority.ex) ourdiary.system-allowed-authorities=ADMIN,USER."
+    },
+    {
+      "name": "ourdiary.date-format",
+      "type": "java.lang.String",
+      "description": "Redefine the default date and time format for Jackson.Client should be aware of this format."
+    },
+    {
+      "name": "ourdiary.date-time-format",
+      "type": "java.lang.String",
+      "description": "Redefine the default date and time format for Jackson.Client should be aware of this format."
     }
   ] }
