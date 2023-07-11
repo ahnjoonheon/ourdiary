@@ -3,7 +3,7 @@ package com.example.ourdiary.member.service;
 import com.example.ourdiary.exception.MemberNotFoundException;
 import com.example.ourdiary.member.entity.Member;
 import com.example.ourdiary.member.repository.MemberRepository;
-import org.springframework.context.MessageSource;
+import com.example.ourdiary.message.MessageService;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,12 +17,12 @@ import java.util.List;
 public class MemberServiceImpl implements MemberService {
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
-    private final MessageSourceAccessor messageSource;
+    private final MessageService messageService;
 
-    public MemberServiceImpl(MemberRepository memberRepository, PasswordEncoder passwordEncoder, MessageSourceAccessor messageSource) {
+    public MemberServiceImpl(MemberRepository memberRepository, PasswordEncoder passwordEncoder, MessageService messageService) {
         this.memberRepository = memberRepository;
         this.passwordEncoder = passwordEncoder;
-        this.messageSource = messageSource;
+        this.messageService = messageService;
     }
 
     @Transactional
@@ -47,7 +47,7 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public void resetPassword(String email) {
         Member member = memberRepository.findByEmail(email)
-                .orElseThrow(() -> new MemberNotFoundException(messageSource.getMessage("exception.email-not-found", email)));
+                .orElseThrow(() -> new MemberNotFoundException(messageService.get("exception.email-not-found", email)));
         member.resetPassword("0000",passwordEncoder);
     }
 }

@@ -2,7 +2,7 @@ package com.example.ourdiary.admin.api.authentication.controller;
 
 import com.example.ourdiary.admin.api.authentication.dto.LoginRequest;
 import com.example.ourdiary.admin.api.authentication.dto.ResetPasswordRequest;
-import com.example.ourdiary.admin.api.authentication.mapper.AuthMapper;
+import com.example.ourdiary.admin.api.authentication.mapper.AuthenticationMapper;
 import com.example.ourdiary.admin.api.authentication.service.AuthenticationService;
 import com.example.ourdiary.admin.configuration.jwt.vo.JwtToken;
 import com.example.ourdiary.member.service.MemberService;
@@ -12,20 +12,20 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/auth")
-public class AuthRestController {
+public class AuthenticationRestController {
     private final MemberService memberService;
     private final AuthenticationService authenticationService;
-    private final AuthMapper authMapper;
+    private final AuthenticationMapper authenticationMapper;
 
-    public AuthRestController(MemberService memberService, AuthenticationService authenticationService, AuthMapper authMapper) {
+    public AuthenticationRestController(MemberService memberService, AuthenticationService authenticationService, AuthenticationMapper authenticationMapper) {
         this.memberService = memberService;
         this.authenticationService = authenticationService;
-        this.authMapper = authMapper;
+        this.authenticationMapper = authenticationMapper;
     }
 
     @PostMapping("/login")
     public ResponseEntity<JwtToken> login(@RequestBody LoginRequest loginRequest) {
-        JwtToken jwtToken = authenticationService.login(authMapper.toMember(loginRequest));
+        JwtToken jwtToken = authenticationService.login(authenticationMapper.toMember(loginRequest));
         return ResponseEntity.ok(jwtToken);
     }
 

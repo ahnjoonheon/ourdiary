@@ -29,9 +29,6 @@ jar {
     enabled(true)
 }
 
-String activeProfile = System.properties['spring.profiles.active']
-println "zone: $activeProfile"
-
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-jdbc'

@@ -6,7 +6,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
-public interface AuthMapper {
+public interface AuthenticationMapper {
 
     @Mapping(target = "profilePic", ignore = true)
     @Mapping(target = "nickname", ignore = true)
