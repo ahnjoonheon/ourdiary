@@ -1,7 +1,8 @@
 package com.example.ourdiary.admin.configuration.security;
 
 
-import com.example.ourdiary.authentication.jwt.JwtAuthenticationFilter;
+import com.example.ourdiary.admin.configuration.jwt.JwtAuthenticationFilter;
+import com.example.ourdiary.admin.configuration.jwt.JwtAuthorizationFilter;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,6 +14,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -43,14 +45,14 @@ public class SecurityConfiguration {
                         authorize -> authorize
                                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).denyAll()
                                 .requestMatchers(PathRequest.toH2Console()).denyAll()
-                                .requestMatchers("/api/auth/login").permitAll()
+                                .requestMatchers("/api/auth/login","/api/auth/reset-password").permitAll()
                                 .requestMatchers(HttpMethod.POST, "/api/member").permitAll()
                                 .anyRequest().authenticated()
                 )
                 .rememberMe(Customizer.withDefaults())
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
-                .addFilterAfter(jwtAuthorizationFilter, JwtAuthenticationFilter.class)
-        ;
+                .addFilterAfter(jwtAuthorizationFilter, JwtAuthenticationFilter.class);
+
 
         return http.build();
     }
@@ -62,8 +64,7 @@ public class SecurityConfiguration {
 
     @Bean
     public PasswordEncoder getPasswordEncoder() {
-        // todo : change to bcrypt
-        return NoOpPasswordEncoder.getInstance();
+        return new BCryptPasswordEncoder();
     }
 
 }

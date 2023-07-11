@@ -1,7 +1,5 @@
-package com.example.ourdiary.admin.configuration.security;
+package com.example.ourdiary.admin.configuration.jwt;
 
-import com.example.ourdiary.authentication.jwt.JwtAuthenticationFilter;
-import com.example.ourdiary.authentication.jwt.JwtTokenProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

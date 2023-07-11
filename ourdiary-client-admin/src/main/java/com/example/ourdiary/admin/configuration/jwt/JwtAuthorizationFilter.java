@@ -1,4 +1,4 @@
-package com.example.ourdiary.admin.configuration.security;
+package com.example.ourdiary.admin.configuration.jwt;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

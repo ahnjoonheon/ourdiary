@@ -26,7 +26,7 @@ public class JacksonConfiguration {
     private String dateTimeFormat;
 
     /**
-     * date String format is defined <b>application.properties</b> will be converted to {@link LocalDate} or {@link LocalDateTime}
+     * date String format is defined <b>application-common.properties</b> will be converted to {@link LocalDate} or {@link LocalDateTime}
      * @return ObjectMapper
      */
     @Bean

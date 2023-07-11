@@ -2,6 +2,7 @@ package com.example.ourdiary.authentication.service;
 
 import com.example.ourdiary.member.entity.Member;
 import com.example.ourdiary.member.repository.MemberRepository;
+import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -12,16 +13,18 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
     private final MemberRepository memberRepository;
+    private final MessageSourceAccessor messageSource;
 
-    public UserDetailsServiceImpl(MemberRepository memberRepository) {
+    public UserDetailsServiceImpl(MemberRepository memberRepository, MessageSourceAccessor messageSource) {
         this.memberRepository = memberRepository;
+        this.messageSource = messageSource;
     }
 
     @Transactional
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Member member = memberRepository.findByEmail(username)
-                .orElseThrow(() -> new UsernameNotFoundException("E-Mail Not Found : %s".formatted(username)));
+                .orElseThrow(() -> new UsernameNotFoundException(messageSource.getMessage("exception.email-not-found", username)));
         return new User(member.getEmail(), member.getPassword(), member.getAuthorities());
     }
 }

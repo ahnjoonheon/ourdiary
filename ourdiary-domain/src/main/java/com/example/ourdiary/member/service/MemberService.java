@@ -12,4 +12,6 @@ public interface MemberService {
     List<Member> searchUserBy(String userAttribute);
 
     Page<Member> searchUserBy(Member member, Pageable pageable);
+
+    void resetPassword(String email);
 }

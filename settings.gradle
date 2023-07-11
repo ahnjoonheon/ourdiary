@@ -1,7 +1,6 @@
 rootProject.name = 'ourdiary'
 include(':ourdiary-common')
 include(':ourdiary-domain')
-include(':ourdiary-jwt-security')
 include(':ourdiary-client-admin')
 include(':ourdiary-client-front')
 

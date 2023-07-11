@@ -12,6 +12,5 @@ public interface AuthMapper {
     @Mapping(target = "nickname", ignore = true)
     @Mapping(target = "name", ignore = true)
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "password", ignore = true)
     Member toMember(LoginRequest loginRequest);
 }
