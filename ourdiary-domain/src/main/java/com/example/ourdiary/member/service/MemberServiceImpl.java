@@ -4,7 +4,6 @@ import com.example.ourdiary.exception.MemberNotFoundException;
 import com.example.ourdiary.member.entity.Member;
 import com.example.ourdiary.member.repository.MemberRepository;
 import com.example.ourdiary.message.MessageService;
-import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;

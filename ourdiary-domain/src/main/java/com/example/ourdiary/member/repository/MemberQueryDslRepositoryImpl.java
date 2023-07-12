@@ -24,9 +24,9 @@ public class MemberQueryDslRepositoryImpl implements MemberQueryDslRepository {
     @Override
     public List<Member> findTop5By(String userAttribute) {
         BooleanBuilder booleanBuilder = new BooleanBuilder();
-        booleanBuilder.or(containsName(userAttribute));
-        booleanBuilder.or(containsEmail(userAttribute));
-        booleanBuilder.or(containsNickname(userAttribute));
+        booleanBuilder.or(containsName(userAttribute))
+                .or(containsEmail(userAttribute))
+                .or(containsNickname(userAttribute));
         return jpaQueryFactory.selectFrom(QMember.member)
                 .where(booleanBuilder)
                 .limit(5)
