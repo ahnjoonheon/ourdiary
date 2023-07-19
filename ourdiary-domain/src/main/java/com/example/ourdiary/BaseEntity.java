@@ -18,17 +18,23 @@ public abstract class BaseEntity {
     @Column(updatable = false)
     private LocalDateTime createdAt;
 
-    @CreatedBy
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "created_by",updatable = false)
-    private Member createdBy;
+    @JoinColumn(name = "created_by", insertable = false, updatable = false)
+    private Member createdMember;
+
+    @CreatedBy
+    @Column(name = "created_by", updatable = false)
+    private Long createdBy;
 
     @LastModifiedDate
     private LocalDateTime lastModifiedAt;
 
-    @LastModifiedBy
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "last_modified_by")
-    private Member lastModifiedBy;
+    @JoinColumn(name = "last_modified_by", insertable = false, updatable = false)
+    private Member lastModifiedMember;
+
+    @LastModifiedBy
+    @Column(name = "last_modified_by")
+    private Long lastModifiedBy;
 
 }

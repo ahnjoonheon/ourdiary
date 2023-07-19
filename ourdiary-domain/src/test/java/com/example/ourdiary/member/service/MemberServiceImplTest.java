@@ -12,13 +12,14 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
@@ -38,13 +39,13 @@ class MemberServiceImplTest {
     private MemberServiceImpl memberService;
 
     @Test
-    void registerUser() {
+    void registerUser() throws IOException {
         // Given
-        given(mockMember.encodePassword(any(PasswordEncoder.class))).willReturn(mockMember);
         given(memberRepository.save(any(Member.class))).willReturn(mockMember);
 
+        MockMultipartFile mockMultipartFile = new MockMultipartFile("profilePicture", "test.jpg", "image/jpeg", "test".getBytes());
         // When
-        final Member member = memberService.registerUser(this.mockMember);
+        final Member member = memberService.registerUser(this.mockMember, mockMultipartFile);
 
         // Then
         assertThat(member).isNotNull();
@@ -78,7 +79,6 @@ class MemberServiceImplTest {
     void resetPassword() {
         // Given
         given(memberRepository.findByEmail(anyString())).willReturn(Optional.of(mockMember));
-        given(mockMember.resetPassword(anyString(), any(PasswordEncoder.class))).willReturn(mockMember);
 
         // When
         memberService.resetPassword("test@example.com");

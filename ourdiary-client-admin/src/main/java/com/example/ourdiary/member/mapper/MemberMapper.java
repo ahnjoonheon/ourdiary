@@ -10,6 +10,7 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface MemberMapper {
 
+    @Mapping(target = "profilePic", ignore = true)
     @Mapping(target = "id", ignore = true)
     Member toMember(RegisterMemberRequest registerMemberRequest);
 

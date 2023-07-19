@@ -6,12 +6,12 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -90,13 +90,15 @@ public class Member extends BaseEntity implements UserDetails {
         return true;
     }
 
-    public Member encodePassword(PasswordEncoder passwordEncoder) {
+    public void encodePassword(PasswordEncoder passwordEncoder) {
         password = passwordEncoder.encode(password);
-        return this;
     }
 
-    public Member resetPassword(String password, PasswordEncoder passwordEncoder) {
+    public void resetPassword(String password, PasswordEncoder passwordEncoder) {
         this.password = passwordEncoder.encode(password);
-        return this;
+    }
+
+    public void saveProfilePic(Path profilePicPath) {
+        this.profilePic = profilePicPath.toString();
     }
 }

@@ -40,10 +40,12 @@ public class SecurityConfiguration {
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .securityMatcher("")
                 .authorizeHttpRequests(
                         authorize -> authorize
                                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).denyAll()
                                 .requestMatchers(PathRequest.toH2Console()).denyAll()
+                                .requestMatchers("/v3/api-docs/**", "/swagger-ui/**").permitAll()
                                 .requestMatchers("/api/auth/login","/api/auth/reset-password").permitAll()
                                 .requestMatchers(HttpMethod.POST, "/api/member").permitAll()
                                 .anyRequest().authenticated()

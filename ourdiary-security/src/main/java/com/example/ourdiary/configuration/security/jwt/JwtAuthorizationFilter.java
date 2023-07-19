@@ -1,6 +1,5 @@
 package com.example.ourdiary.configuration.security.jwt;
 
-import com.example.ourdiary.message.MessageService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

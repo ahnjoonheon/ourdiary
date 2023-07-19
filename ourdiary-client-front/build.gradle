@@ -54,6 +54,9 @@ dependencies {
     annotationProcessor "jakarta.annotation:jakarta.annotation-api"
     annotationProcessor "jakarta.persistence:jakarta.persistence-api"
 
+    implementation 'ru.lanwen.verbalregex:java-verbal-expressions:1.8'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+
     implementation project(':ourdiary-domain')
     implementation project(':ourdiary-common')
 }
