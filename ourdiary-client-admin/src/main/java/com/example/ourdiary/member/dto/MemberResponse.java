@@ -1,9 +1,9 @@
 package com.example.ourdiary.member.dto;
 
-public record RegisterMemberResponse(
+public record MemberResponse(
         Long id,
         String name,
         String email,
-        String profilePic,
+        String profilePicPath,
         String nickname) {
 }

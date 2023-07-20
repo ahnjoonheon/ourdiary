@@ -1,10 +1,14 @@
 package com.example.ourdiary.member.entity;
 
+import com.example.ourdiary.BaseEntity;
 import com.example.ourdiary.constant.Authority;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.io.Serial;
+import java.io.Serializable;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -12,7 +16,9 @@ import lombok.NoArgsConstructor;
 @Table(name = "member_authority", uniqueConstraints = {
         @UniqueConstraint(name = "uk_user_authority", columnNames = {"member_id", "authority"})
 })
-public class MemberAuthority {
+public class MemberAuthority extends BaseEntity implements Serializable {
+    @Serial
+    private static final long serialVersionUID = -5533781566000935006L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -25,21 +31,4 @@ public class MemberAuthority {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Authority authority;
-
-    public MemberAuthority(Member member, Authority authority) {
-        this.member = member;
-        this.authority = authority;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public Member getMember() {
-        return member;
-    }
-
-    public Authority getAuthority() {
-        return authority;
-    }
 }

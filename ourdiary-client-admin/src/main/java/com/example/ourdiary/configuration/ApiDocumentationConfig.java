@@ -15,8 +15,8 @@ public class ApiDocumentationConfig {
     @Bean
     public OpenAPI openAPI() {
 
-        Info info = new Info().title("Board API Docs").version("v1")
-                .description("nature republic admin api docs")
+        Info info = new Info().title("Ourdiary Admin API Docs").version("v1")
+                .description("ourdiary admin api docs")
 //                .termsOfService("http://swagger.io/terms/")
                 .contact(new Contact().name("AJ").email("universal304015@gmail.com"))
 //                .license(new License().name("Apache License Version 2.0").url("http://www.apache.org/licenses/LICENSE-2.0"))

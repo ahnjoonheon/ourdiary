@@ -8,7 +8,7 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring")
 public interface AuthenticationMapper {
 
-    @Mapping(target = "profilePic", ignore = true)
+    @Mapping(target = "profilePicPath", ignore = true)
     @Mapping(target = "nickname", ignore = true)
     @Mapping(target = "name", ignore = true)
     @Mapping(target = "id", ignore = true)

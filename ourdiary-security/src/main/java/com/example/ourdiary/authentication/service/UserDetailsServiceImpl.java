@@ -1,9 +1,9 @@
 package com.example.ourdiary.authentication.service;
 
+import com.example.ourdiary.authentication.domain.UserDetailsImpl;
 import com.example.ourdiary.member.entity.Member;
 import com.example.ourdiary.member.repository.MemberRepository;
 import org.springframework.context.support.MessageSourceAccessor;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -25,6 +25,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Member member = memberRepository.findByEmail(username)
                 .orElseThrow(() -> new UsernameNotFoundException(messageSource.getMessage("exception.email-not-found", username)));
-        return new User(member.getEmail(), member.getPassword(), member.getAuthorities());
+        return new UserDetailsImpl(member);
     }
 }

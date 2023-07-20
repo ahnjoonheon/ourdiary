@@ -1,18 +1,21 @@
 package com.example.ourdiary.constant;
 
 import java.nio.file.Path;
+import java.time.LocalDate;
 
 public enum FilePath {
-    PROFILE_IMAGE(Path.of("profile-image")),
-    POST_IMAGE(Path.of("post-image"));
+    PROFILE_IMAGE(Path.of("file/profile-image/" + LocalDate.now())),
+    POST_IMAGE(Path.of("file/post-image/" + LocalDate.now()));
 
-    private final Path path;
+    private final Path defaultPath;
 
-    FilePath(Path path) {
-        this.path = path;
+    FilePath(Path defaultPath) {
+        this.defaultPath = defaultPath;
     }
 
     public Path getPath() {
-        return path;
+        return defaultPath;
     }
+
+
 }

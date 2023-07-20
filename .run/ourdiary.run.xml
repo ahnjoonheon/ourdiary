@@ -1,0 +1,11 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="ourdiary" type="docker-deploy" factoryName="docker-image" server-name="Docker">
+    <deployment type="docker-image">
+      <settings>
+        <option name="imageTag" value="mariadb:10.6.7" />
+        <option name="containerName" value="ourdiary" />
+      </settings>
+    </deployment>
+    <method v="2" />
+  </configuration>
+</component>

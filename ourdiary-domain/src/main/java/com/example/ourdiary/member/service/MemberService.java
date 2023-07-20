@@ -11,6 +11,8 @@ import java.util.List;
 public interface MemberService {
     Member registerUser(Member member, MultipartFile profilePicture) throws IOException;
 
+    Member updateUser(Member member, MultipartFile profilePicture) throws IOException;
+
     List<Member> searchUserBy(String userAttribute);
 
     Page<Member> searchUserBy(Member member, Pageable pageable);

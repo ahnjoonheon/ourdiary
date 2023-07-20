@@ -6,6 +6,6 @@ public record MemberAutocompleteResponse(
         String name,
         String email,
         String nickname,
-        String profilePic
+        String profilePicPath
 ) {
 }

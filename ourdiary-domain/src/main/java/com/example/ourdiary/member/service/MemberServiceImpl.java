@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.List;
 
 @Service
@@ -34,8 +35,24 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public Member registerUser(Member member, MultipartFile profilePicture) throws IOException {
         member.encodePassword(passwordEncoder);
-        member.saveProfilePic(fileService.upload(profilePicture, FilePath.PROFILE_IMAGE.getPath()));
+        Path path = fileService.upload(profilePicture, null);
+        member.saveProfilePic(path);
         return memberRepository.save(member);
+    }
+
+    @Transactional
+    @Override
+    public Member updateUser(Member member, MultipartFile profilePicture) throws IOException {
+        Member memberToUpdate = getMemberOrElseThrow(member);
+        Path path = fileService.upload(profilePicture, FilePath.PROFILE_IMAGE.getPath());
+        fileService.delete(memberToUpdate.getProfilePicPath());
+        memberToUpdate.saveProfilePic(path);
+        return memberToUpdate.update(member);
+    }
+
+    private Member getMemberOrElseThrow(Member member) {
+        return memberRepository.findById(member.getId())
+                .orElseThrow(() -> new MemberNotFoundException(messageService.get("exception.member-id-not-found", String.valueOf(member.getId()))));
     }
 
     @Transactional(readOnly = true)

@@ -6,15 +6,12 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 @Getter
@@ -23,7 +20,10 @@ import java.util.List;
 @Table(name = "member", indexes = {
         @Index(name = "uk_member_email", columnList = "email", unique = true)
 })
-public class Member extends BaseEntity implements UserDetails {
+public class Member extends BaseEntity implements Serializable {
+    @Serial
+    private static final long serialVersionUID = -5533781566000935006L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -38,8 +38,9 @@ public class Member extends BaseEntity implements UserDetails {
     @Column(name = "password", nullable = false, length = 100)
     private String password;
 
-    @Column(name = "profile_pic", length = 200)
-    private String profilePic;
+    @Convert(converter = PathConverter.class)
+    @Column(name = "profile_pic_path", length = 200)
+    private Path profilePicPath;
 
     @Column(name = "nickname", length = 50)
     private String nickname;
@@ -48,46 +49,13 @@ public class Member extends BaseEntity implements UserDetails {
     private List<MemberAuthority> authorities = new ArrayList<>();
 
     @Builder
-    public Member(Long id, String name, String email, String password, String profilePic, String nickname) {
+    public Member(Long id, String name, String email, String password, Path profilePicPath, String nickname) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.password = password;
-        this.profilePic = profilePic;
+        this.profilePicPath = profilePicPath;
         this.nickname = nickname;
-    }
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        if (authorities == null) {
-            return Collections.emptyList();
-        }
-        return authorities.stream().map(authority -> new SimpleGrantedAuthority(authority.getAuthority().name())).toList();
-    }
-
-    @Override
-    public String getUsername() {
-        return email;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return false;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return false;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return false;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
     }
 
     public void encodePassword(PasswordEncoder passwordEncoder) {
@@ -99,6 +67,14 @@ public class Member extends BaseEntity implements UserDetails {
     }
 
     public void saveProfilePic(Path profilePicPath) {
-        this.profilePic = profilePicPath.toString();
+        this.profilePicPath = profilePicPath;
     }
+
+    public Member update(Member member) {
+        this.name = member.getName();
+        this.nickname = member.getNickname();
+        return this;
+    }
+
+
 }
