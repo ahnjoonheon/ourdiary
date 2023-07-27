@@ -50,7 +50,7 @@ public class AuthenticationRestController {
     }
 
     //    @Profile({"prod"})
-    @Operation(summary = "로그인", description = "로그인합니다.")
+    @Operation(summary = "로그인", description = "로그인을 합니다.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "successful operation",
                     content = @Content(schema = @Schema(implementation = MemberResponse.class))),
@@ -66,6 +66,15 @@ public class AuthenticationRestController {
         return ResponseEntity.ok().build();
     }
 
+    @Operation(summary = "로그아웃", description = "로그아웃을 합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "successful operation",
+                    content = @Content),
+            @ApiResponse(responseCode = "400", description = "Invalid status value",
+                    content = @Content),
+            @ApiResponse(responseCode = "404", description = "Order not found",
+                    content = @Content)
+    })
     @PostMapping("/logout")
     public ResponseEntity<HttpStatus> logout(HttpServletResponse response) {
         Cookie initializedCookie = authenticationService.logout();
@@ -74,6 +83,15 @@ public class AuthenticationRestController {
     }
 
 
+    @Operation(summary = "비밀번호 초기화", description = "비밀번호를 초기화합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "successful operation",
+                    content = @Content),
+            @ApiResponse(responseCode = "400", description = "Invalid status value",
+                    content = @Content),
+            @ApiResponse(responseCode = "404", description = "Order not found",
+                    content = @Content)
+    })
     @GetMapping("/reset-password")
     public ResponseEntity<HttpStatus> resetPassword(ResetPasswordRequest resetPasswordRequest) {
         memberService.resetPassword(resetPasswordRequest.email());
