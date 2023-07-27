@@ -1,16 +1,29 @@
 package com.example.ourdiary.configuration.security.jwt;
 
 import com.example.ourdiary.configuration.security.jwt.vo.JwtToken;
+import com.example.ourdiary.exception.JwtAuthenticationException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.util.AntPathMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.Optional;
+
 
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
+
+    @Value("${ourdiary.ignore-paths}")
+    private List<String> ignorePaths;
+
+    @Value("${ourdiary.ignore-paths.post}")
+    private List<String> ignorePathsPost;
 
     private final JwtTokenProvider jwtTokenProvider;
 
@@ -20,10 +33,28 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        JwtToken jwtToken = jwtTokenProvider.resolveToken(request);
-        if (jwtToken != null && jwtTokenProvider.validateToken(jwtToken)) {
+        String method = request.getMethod();
+        String path = request.getRequestURI();
+        if (shouldIgnore(method, path)) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
+        JwtToken jwtToken = Optional.ofNullable(jwtTokenProvider.resolveToken(request)).orElseThrow(
+                () -> new JwtAuthenticationException("Invalid token")
+        );
+        if (isValid(jwtToken)) {
                 SecurityContextHolder.getContext().setAuthentication(jwtTokenProvider.getAuthentication(jwtToken));
         }
         filterChain.doFilter(request, response);
+    }
+
+    private boolean isValid(JwtToken jwtToken) {
+        return jwtTokenProvider.validateToken(jwtToken);
+    }
+
+    private boolean shouldIgnore(String method, String path) {
+        return ignorePaths.stream().anyMatch(ignorePath -> new AntPathMatcher().match(ignorePath, path)) ||
+                ignorePathsPost.stream().anyMatch(ignorePath -> method.equals(HttpMethod.POST.name()) && new AntPathMatcher().match(ignorePath, path));
     }
 }

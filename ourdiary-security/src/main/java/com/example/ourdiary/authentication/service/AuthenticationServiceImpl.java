@@ -3,6 +3,7 @@ package com.example.ourdiary.authentication.service;
 import com.example.ourdiary.configuration.security.jwt.JwtTokenProvider;
 import com.example.ourdiary.configuration.security.jwt.vo.JwtToken;
 import com.example.ourdiary.member.entity.Member;
+import jakarta.servlet.http.Cookie;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -22,10 +23,21 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Transactional(readOnly = true)
     @Override
-    public JwtToken login(Member member) {
+    public JwtToken issueToken(Member member) {
         String username = member.getEmail();
         String password = member.getPassword();
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
         return jwtTokenProvider.generateToken(username, ((UserDetails) authentication.getPrincipal()).getAuthorities());
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public Cookie login(Member member) {
+        return jwtTokenProvider.setToken(issueToken(member));
+    }
+
+    @Override
+    public Cookie logout() {
+        return jwtTokenProvider.initCookie();
     }
 }

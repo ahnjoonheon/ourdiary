@@ -33,10 +33,10 @@ public class MemberServiceImpl implements MemberService {
 
     @Transactional
     @Override
-    public Member registerUser(Member member, MultipartFile profilePicture) throws IOException {
+    public Member registerUser(Member member, MultipartFile multipartFile) throws IOException {
         member.encodePassword(passwordEncoder);
-        Path path = fileService.upload(profilePicture, null);
-        member.saveProfilePic(path);
+        Path path = fileService.upload(multipartFile, null);
+        member.saveProfilePic(path.toString());
         return memberRepository.save(member);
     }
 
@@ -45,8 +45,8 @@ public class MemberServiceImpl implements MemberService {
     public Member updateUser(Member member, MultipartFile profilePicture) throws IOException {
         Member memberToUpdate = getMemberOrElseThrow(member);
         Path path = fileService.upload(profilePicture, FilePath.PROFILE_IMAGE.getPath());
-        fileService.delete(memberToUpdate.getProfilePicPath());
-        memberToUpdate.saveProfilePic(path);
+        fileService.delete(Path.of(memberToUpdate.getProfilePicPath()));
+        memberToUpdate.saveProfilePic(path.toString());
         return memberToUpdate.update(member);
     }
 

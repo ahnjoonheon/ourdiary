@@ -10,7 +10,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,9 +37,9 @@ public class Member extends BaseEntity implements Serializable {
     @Column(name = "password", nullable = false, length = 100)
     private String password;
 
-    @Convert(converter = PathConverter.class)
+
     @Column(name = "profile_pic_path", length = 200)
-    private Path profilePicPath;
+    private String profilePicPath;
 
     @Column(name = "nickname", length = 50)
     private String nickname;
@@ -49,7 +48,7 @@ public class Member extends BaseEntity implements Serializable {
     private List<MemberAuthority> authorities = new ArrayList<>();
 
     @Builder
-    public Member(Long id, String name, String email, String password, Path profilePicPath, String nickname) {
+    public Member(Long id, String name, String email, String password, String profilePicPath, String nickname) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -66,7 +65,7 @@ public class Member extends BaseEntity implements Serializable {
         this.password = passwordEncoder.encode(password);
     }
 
-    public void saveProfilePic(Path profilePicPath) {
+    public void saveProfilePic(String profilePicPath) {
         this.profilePicPath = profilePicPath;
     }
 

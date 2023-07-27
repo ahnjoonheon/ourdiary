@@ -4,6 +4,7 @@ import com.example.ourdiary.authentication.domain.UserDetailsImpl;
 import com.example.ourdiary.member.entity.Member;
 import com.example.ourdiary.member.repository.MemberRepository;
 import org.springframework.context.support.MessageSourceAccessor;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -25,6 +26,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Member member = memberRepository.findByEmail(username)
                 .orElseThrow(() -> new UsernameNotFoundException(messageSource.getMessage("exception.email-not-found", username)));
-        return new UserDetailsImpl(member);
+        return new UserDetailsImpl(member, member.getAuthorities().stream().map(authority -> new SimpleGrantedAuthority(authority.getAuthority().name())).toList());
     }
 }

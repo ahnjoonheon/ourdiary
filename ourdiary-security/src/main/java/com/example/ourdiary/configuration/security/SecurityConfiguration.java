@@ -3,6 +3,7 @@ package com.example.ourdiary.configuration.security;
 
 import com.example.ourdiary.configuration.security.jwt.JwtAuthenticationFilter;
 import com.example.ourdiary.configuration.security.jwt.JwtAuthorizationFilter;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,6 +24,12 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 @Configuration
 public class SecurityConfiguration {
+
+    @Value("${ourdiary.ignore-paths}")
+    private String[] allowedPaths;
+
+    @Value("${ourdiary.ignore-paths.post}")
+    private String[] allowedPostPaths;
 
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
@@ -45,15 +52,13 @@ public class SecurityConfiguration {
                         authorize -> authorize
                                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).denyAll()
                                 .requestMatchers(PathRequest.toH2Console()).denyAll()
-                                .requestMatchers("/v3/api-docs/**", "/swagger-ui/**").permitAll()
-                                .requestMatchers("/api/auth/login","/api/auth/reset-password").permitAll()
-                                .requestMatchers(HttpMethod.POST, "/api/member").permitAll()
+                                .requestMatchers(allowedPaths).permitAll()
+                                .requestMatchers(HttpMethod.POST, allowedPostPaths).permitAll()
                                 .anyRequest().authenticated()
                 )
                 .rememberMe(Customizer.withDefaults())
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .addFilterAfter(jwtAuthorizationFilter, JwtAuthenticationFilter.class);
-
 
         return http.build();
     }

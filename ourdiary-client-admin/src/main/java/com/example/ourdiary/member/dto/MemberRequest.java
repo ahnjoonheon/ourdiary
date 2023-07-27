@@ -10,7 +10,7 @@ public record MemberRequest(
         String name,
         @Schema(description = "이메일", type = "string", example = "universal304015@gmail.com")
         String email,
-        @Schema(description = "비밀번호", type = "string", example = "1234")
+        @Schema(description = "비밀번호", type = "string", example = "0000")
         String password,
         @Schema(description = "닉네임", type = "string", example = "홍길동")
         String nickname,
