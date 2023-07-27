@@ -1,6 +1,6 @@
 package com.example.ourdiary.authentication.service;
 
-import com.example.ourdiary.authentication.domain.UserDetailsImpl;
+import com.example.ourdiary.authentication.UserDetailsImpl;
 import com.example.ourdiary.member.entity.Member;
 import com.example.ourdiary.member.repository.MemberRepository;
 import org.springframework.context.support.MessageSourceAccessor;

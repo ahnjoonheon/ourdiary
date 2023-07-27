@@ -1,6 +1,10 @@
 package com.example.ourdiary.configuration.security.jwt;
 
+import com.example.ourdiary.authentication.entity.RefreshToken;
+import com.example.ourdiary.authentication.repository.RefreshTokenRepository;
 import com.example.ourdiary.configuration.security.jwt.vo.JwtToken;
+import com.example.ourdiary.configuration.security.jwt.vo.JwtTokens;
+import com.example.ourdiary.constant.TokenStatus;
 import com.example.ourdiary.exception.JwtAuthenticationException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
@@ -17,9 +21,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Date;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.*;
 
 @Service
 public class JwtTokenProvider {
@@ -33,12 +37,20 @@ public class JwtTokenProvider {
     @Value("${ourdiary.jwt.token-validity-in-milliseconds}")
     private int validityInMilliseconds;
 
+    @Value("${ourdiary.jwt.refresh-token-name}")
+    private String refreshTokenName;
+
+    @Value("${ourdiary.jwt.refresh-token-validity-in-milliseconds}")
+    private int refreshTokenValidityInMilliseconds;
+
     private final UserDetailsService userDetailsService;
     private final MessageSourceAccessor messageSource;
+    private final RefreshTokenRepository refreshTokenRepository;
 
-    public JwtTokenProvider(UserDetailsService userDetailsService, MessageSourceAccessor messageSource) {
+    public JwtTokenProvider(UserDetailsService userDetailsService, MessageSourceAccessor messageSource, RefreshTokenRepository refreshTokenRepository) {
         this.userDetailsService = userDetailsService;
         this.messageSource = messageSource;
+        this.refreshTokenRepository = refreshTokenRepository;
     }
 
     public Authentication getAuthentication(JwtToken jwtToken) {
@@ -57,6 +69,34 @@ public class JwtTokenProvider {
                 .setExpiration(validity)
                 .signWith(SignatureAlgorithm.HS256, secretKey)
                 .compact());
+    }
+
+    public JwtToken generateRefreshToken(String email) {
+        Claims claims = Jwts.claims().setSubject(email);
+        Date now = new Date();
+        Date validity = new Date(now.getTime() + refreshTokenValidityInMilliseconds);
+        String token = Jwts.builder()
+                .setClaims(claims)
+                .setId(UUID.randomUUID().toString())
+                .setIssuedAt(now)
+                .setExpiration(validity)
+                .signWith(SignatureAlgorithm.HS256, secretKey)
+                .compact();
+        RefreshToken refreshToken = RefreshToken.builder()
+                .username(email)
+                .token(token)
+                .expiredAt(LocalDateTime.ofInstant(validity.toInstant(), ZoneId.systemDefault()))
+                .status(TokenStatus.ENABLED)
+                .build();
+        refreshTokenRepository.save(refreshToken);
+        return new JwtToken(token);
+    }
+
+    public JwtTokens generateTokens(String email, Collection<? extends GrantedAuthority> authorities) {
+        return JwtTokens.builder()
+                .accessToken(generateToken(email, authorities))
+                .refreshToken(generateRefreshToken(email))
+                .build();
     }
 
     public String getUsername(JwtToken jwtToken) {
@@ -91,11 +131,35 @@ public class JwtTokenProvider {
         return cookie;
     }
 
-    public Cookie initCookie() {
+    public Cookie setRefreshToken(JwtToken jwtToken) {
+        Cookie cookie = new Cookie(refreshTokenName, jwtToken.stringify());
+        cookie.setHttpOnly(true);
+        cookie.setMaxAge(refreshTokenValidityInMilliseconds);
+        cookie.setPath("/");
+        return cookie;
+    }
+
+    public List<Cookie> setTokens(JwtTokens jwtTokens) {
+        return List.of(setToken(jwtTokens.accessToken()), setRefreshToken(jwtTokens.refreshToken()));
+    }
+
+    public Cookie initToken() {
         Cookie cookie = new Cookie(tokenName, null);
         cookie.setHttpOnly(true);
         cookie.setMaxAge(0);
         cookie.setPath("/");
         return cookie;
+    }
+
+    public Cookie initRefreshToken() {
+        Cookie cookie = new Cookie(refreshTokenName, null);
+        cookie.setHttpOnly(true);
+        cookie.setMaxAge(0);
+        cookie.setPath("/");
+        return cookie;
+    }
+
+    public List<Cookie> initTokens() {
+        return List.of(initToken(), initRefreshToken());
     }
 }

@@ -20,6 +20,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/auth")
 public class AuthenticationRestController {
@@ -43,7 +45,7 @@ public class AuthenticationRestController {
             @ApiResponse(responseCode = "404", description = "Order not found",
                     content = @Content)
     })
-    @PostMapping("/token")
+    @PostMapping("/tokens")
     public ResponseEntity<TokenResponse> getToken(@RequestBody LoginRequest loginRequest) {
         return ResponseEntity.ok(authenticationMapper.toTokenResponse(
                 authenticationService.issueToken(authenticationMapper.toMember(loginRequest))));
@@ -61,8 +63,8 @@ public class AuthenticationRestController {
     })
     @PostMapping("/login")
     public ResponseEntity<HttpStatus> login(@RequestBody LoginRequest loginRequest, HttpServletResponse response) {
-        Cookie jwtTokenCookie = authenticationService.login(authenticationMapper.toMember(loginRequest));
-        response.addCookie(jwtTokenCookie);
+        List<Cookie> jwtTokenCookies = authenticationService.login(authenticationMapper.toMember(loginRequest));
+        jwtTokenCookies.forEach(response::addCookie);
         return ResponseEntity.ok().build();
     }
 
@@ -77,8 +79,8 @@ public class AuthenticationRestController {
     })
     @PostMapping("/logout")
     public ResponseEntity<HttpStatus> logout(HttpServletResponse response) {
-        Cookie initializedCookie = authenticationService.logout();
-        response.addCookie(initializedCookie);
+        List<Cookie> initializedCookies = authenticationService.logout();
+        initializedCookies.forEach(response::addCookie);
         return ResponseEntity.ok().build();
     }
 

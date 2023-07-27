@@ -1,4 +1,4 @@
-package com.example.ourdiary.authentication.domain;
+package com.example.ourdiary.authentication;
 
 import com.example.ourdiary.member.entity.Member;
 import org.springframework.security.core.GrantedAuthority;
