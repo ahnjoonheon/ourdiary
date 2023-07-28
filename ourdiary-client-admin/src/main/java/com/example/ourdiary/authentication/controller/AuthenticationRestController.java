@@ -9,6 +9,7 @@ import com.example.ourdiary.authentication.vo.JwtToken;
 import com.example.ourdiary.member.dto.MemberResponse;
 import com.example.ourdiary.member.service.MemberService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.headers.Header;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -52,11 +53,18 @@ public class AuthenticationRestController {
     //    @Profile({"prod"})
     @Operation(summary = "로그인", description = "로그인을 합니다.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "successful operation",
-                    content = @Content(schema = @Schema(implementation = MemberResponse.class))),
-            @ApiResponse(responseCode = "400", description = "Invalid status value",
+            @ApiResponse(responseCode = "200",
+                    description = """
+                            **successful operation**<br/>
+                            `Access Token`, `Refresh Token`을 발행합니다.<br/>
+                            `Access Token`은 `Header`에<br/>
+                            `Refresh Token`은 `Cookie`의 `refresh-token`으로 전달됩니다.
+                            """,
+                    content = @Content,
+                    headers = @Header(name = "Authorization", description = "Bearer Token", required = true)),
+            @ApiResponse(responseCode = "400", description = "**Invalid status value**",
                     content = @Content),
-            @ApiResponse(responseCode = "404", description = "Order not found",
+            @ApiResponse(responseCode = "404", description = "**Order not found**",
                     content = @Content)
     })
     @PostMapping("/login")
