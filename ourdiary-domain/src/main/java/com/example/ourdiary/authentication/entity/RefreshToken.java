@@ -1,10 +1,13 @@
 package com.example.ourdiary.authentication.entity;
 
 import com.example.ourdiary.BaseEntity;
+import com.example.ourdiary.authentication.vo.JwtToken;
 import com.example.ourdiary.constant.TokenStatus;
-import com.example.ourdiary.member.entity.Member;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
@@ -21,22 +24,36 @@ public class RefreshToken extends BaseEntity {
     @Column(name = "username", nullable = false)
     private String username;
 
+    @Convert(converter = JwtToken.JwtTokenConverter.class)
     @Column(name = "token", nullable = false)
-    private String token;
+    private JwtToken token;
 
     @Column(name = "expired_at", nullable = false)
     private LocalDateTime expiredAt;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
-    private TokenStatus status;
+    private TokenStatus status = TokenStatus.ENABLED;
 
     @Builder
-    public RefreshToken(Long id, String username, String token, LocalDateTime expiredAt, TokenStatus status) {
+    public RefreshToken(Long id, String username, JwtToken token, LocalDateTime expiredAt, TokenStatus status) {
         this.id = id;
         this.username = username;
         this.token = token;
         this.expiredAt = expiredAt;
         this.status = status;
+    }
+
+    public static RefreshToken create(String username, JwtToken token, LocalDateTime expiredAt) {
+        return RefreshToken.builder()
+                .username(username)
+                .token(token)
+                .expiredAt(expiredAt)
+                .status(TokenStatus.ENABLED)
+                .build();
+    }
+
+    public void disable() {
+        this.status = TokenStatus.DISABLED;
     }
 }

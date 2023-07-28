@@ -71,7 +71,7 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public void resetPassword(String email) {
         Member member = memberRepository.findByEmail(email)
-                .orElseThrow(() -> new MemberNotFoundException(messageService.get("exception.email-not-found", email)));
+                .orElseThrow(() -> new MemberNotFoundException(messageService.get("exception.authentication.email-not-found", email)));
         member.resetPassword("0000",passwordEncoder);
     }
 }

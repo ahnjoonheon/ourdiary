@@ -1,15 +1,13 @@
 package com.example.ourdiary.authentication.service;
 
-import com.example.ourdiary.configuration.security.jwt.vo.JwtTokens;
-import com.example.ourdiary.member.entity.Member;
-import jakarta.servlet.http.Cookie;
-
-import java.util.List;
+import com.example.ourdiary.authentication.vo.JwtTokens;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 public interface AuthenticationService {
-    JwtTokens issueToken(Member member);
-    List<Cookie> login(Member member);
-
-    List<Cookie> logout();
+    JwtTokens issueTokens(String username, String password);
+    void login(String username, String password, HttpServletResponse response);
+    void logout(HttpServletRequest request, HttpServletResponse response);
+    void refresh(HttpServletRequest request, HttpServletResponse response);
 
 }

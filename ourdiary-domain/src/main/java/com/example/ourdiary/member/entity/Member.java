@@ -74,6 +74,4 @@ public class Member extends BaseEntity implements Serializable {
         this.nickname = member.getNickname();
         return this;
     }
-
-
 }

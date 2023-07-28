@@ -1,4 +1,4 @@
-package com.example.ourdiary.configuration.security.jwt.vo;
+package com.example.ourdiary.authentication.vo;
 
 import lombok.Builder;
 

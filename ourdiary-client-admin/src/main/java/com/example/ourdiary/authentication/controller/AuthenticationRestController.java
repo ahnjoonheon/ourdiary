@@ -5,7 +5,7 @@ import com.example.ourdiary.authentication.dto.ResetPasswordRequest;
 import com.example.ourdiary.authentication.dto.TokenResponse;
 import com.example.ourdiary.authentication.mapper.AuthenticationMapper;
 import com.example.ourdiary.authentication.service.AuthenticationService;
-import com.example.ourdiary.configuration.security.jwt.vo.JwtToken;
+import com.example.ourdiary.authentication.vo.JwtToken;
 import com.example.ourdiary.member.dto.MemberResponse;
 import com.example.ourdiary.member.service.MemberService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -13,14 +13,12 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -48,7 +46,7 @@ public class AuthenticationRestController {
     @PostMapping("/tokens")
     public ResponseEntity<TokenResponse> getToken(@RequestBody LoginRequest loginRequest) {
         return ResponseEntity.ok(authenticationMapper.toTokenResponse(
-                authenticationService.issueToken(authenticationMapper.toMember(loginRequest))));
+                authenticationService.issueTokens(loginRequest.email(), loginRequest.password())));
     }
 
     //    @Profile({"prod"})
@@ -63,8 +61,7 @@ public class AuthenticationRestController {
     })
     @PostMapping("/login")
     public ResponseEntity<HttpStatus> login(@RequestBody LoginRequest loginRequest, HttpServletResponse response) {
-        List<Cookie> jwtTokenCookies = authenticationService.login(authenticationMapper.toMember(loginRequest));
-        jwtTokenCookies.forEach(response::addCookie);
+        authenticationService.login(loginRequest.email(), loginRequest.password(), response);
         return ResponseEntity.ok().build();
     }
 
@@ -78,9 +75,23 @@ public class AuthenticationRestController {
                     content = @Content)
     })
     @PostMapping("/logout")
-    public ResponseEntity<HttpStatus> logout(HttpServletResponse response) {
-        List<Cookie> initializedCookies = authenticationService.logout();
-        initializedCookies.forEach(response::addCookie);
+    public ResponseEntity<HttpStatus> logout(HttpServletRequest request, HttpServletResponse response) {
+        authenticationService.logout(request, response);
+        return ResponseEntity.ok().build();
+    }
+
+    @Operation(summary = "토큰 갱신", description = "토큰을 갱신합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "successful operation",
+                    content = @Content(schema = @Schema(implementation = JwtToken.class))),
+            @ApiResponse(responseCode = "400", description = "Invalid status value",
+                    content = @Content),
+            @ApiResponse(responseCode = "404", description = "Order not found",
+                    content = @Content)
+    })
+    @PostMapping("/refresh-token")
+    public ResponseEntity<HttpStatus> refreshToken(HttpServletRequest request, HttpServletResponse response) {
+        authenticationService.refresh(request, response);
         return ResponseEntity.ok().build();
     }
 

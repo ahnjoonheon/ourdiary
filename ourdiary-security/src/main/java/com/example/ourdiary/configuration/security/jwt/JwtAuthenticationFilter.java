@@ -1,6 +1,6 @@
 package com.example.ourdiary.configuration.security.jwt;
 
-import com.example.ourdiary.configuration.security.jwt.vo.JwtToken;
+import com.example.ourdiary.authentication.vo.JwtToken;
 import com.example.ourdiary.exception.JwtAuthenticationException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -40,17 +40,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             return;
         }
 
-        JwtToken jwtToken = Optional.ofNullable(jwtTokenProvider.resolveToken(request)).orElseThrow(
-                () -> new JwtAuthenticationException("Invalid token")
+        JwtToken jwtToken = Optional.ofNullable(jwtTokenProvider.resolveAccessToken(request)).orElseThrow(
+                () -> new JwtAuthenticationException("exception.authentication.token-not-found")
         );
-        if (isValid(jwtToken)) {
-                SecurityContextHolder.getContext().setAuthentication(jwtTokenProvider.getAuthentication(jwtToken));
+        if (jwtTokenProvider.validateToken(jwtToken)) {
+            SecurityContextHolder.getContext().setAuthentication(jwtTokenProvider.getAuthentication(jwtToken));
         }
         filterChain.doFilter(request, response);
-    }
-
-    private boolean isValid(JwtToken jwtToken) {
-        return jwtTokenProvider.validateToken(jwtToken);
     }
 
     private boolean shouldIgnore(String method, String path) {

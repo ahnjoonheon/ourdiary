@@ -50,14 +50,14 @@ public class FileService {
     private String getExtension(MultipartFile multipartFile) {
         String originalFilename = multipartFile.getOriginalFilename();
         if (!StringUtils.hasText(originalFilename)) {
-            throw new FileNameNotFoundException(messageService.get("exception.file-name-not-found"));
+            throw new FileNameNotFoundException(messageService.get("exception.file.file-name-not-found"));
         }
         return originalFilename.substring(originalFilename.lastIndexOf("."));
     }
 
     private void createDirectoriesIfNotExist(Path path) {
         if (!path.toFile().exists() && (!path.toFile().mkdirs())){
-                throw new CannotCreateDirectoryException(messageService.get("exception.cannot-create-directory", path.toString()));
+                throw new CannotCreateDirectoryException(messageService.get("exception.file.cannot-create-directory", path.toString()));
         }
     }
 
