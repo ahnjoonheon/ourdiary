@@ -6,7 +6,7 @@ import com.example.ourdiary.authentication.dto.TokenResponse;
 import com.example.ourdiary.authentication.mapper.AuthenticationMapper;
 import com.example.ourdiary.authentication.service.AuthenticationService;
 import com.example.ourdiary.authentication.vo.JwtToken;
-import com.example.ourdiary.member.dto.MemberResponse;
+import com.example.ourdiary.constant.Description;
 import com.example.ourdiary.member.service.MemberService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.headers.Header;
@@ -54,12 +54,7 @@ public class AuthenticationRestController {
     @Operation(summary = "로그인", description = "로그인을 합니다.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
-                    description = """
-                            **successful operation**<br/>
-                            `Access Token`, `Refresh Token`을 발행합니다.<br/>
-                            `Access Token`은 `Header`에<br/>
-                            `Refresh Token`은 `Cookie`의 `refresh-token`으로 전달됩니다.
-                            """,
+                    description = Description.API_AUTH_LOGIN,
                     content = @Content,
                     headers = @Header(name = "Authorization", description = "Bearer Token", required = true)),
             @ApiResponse(responseCode = "400", description = "**Invalid status value**",
@@ -102,7 +97,6 @@ public class AuthenticationRestController {
         authenticationService.refresh(request, response);
         return ResponseEntity.ok().build();
     }
-
 
     @Operation(summary = "비밀번호 초기화", description = "비밀번호를 초기화합니다.")
     @ApiResponses(value = {
