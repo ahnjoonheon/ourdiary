@@ -3,7 +3,7 @@ package com.example.ourdiary.member.service;
 import com.example.ourdiary.DomainEventPublisher;
 import com.example.ourdiary.constant.FilePath;
 import com.example.ourdiary.exception.MemberNotFoundException;
-import com.example.ourdiary.file.FileService;
+import com.example.ourdiary.file.service.FileService;
 import com.example.ourdiary.member.domain.Member;
 import com.example.ourdiary.member.domain.PasswordResetEvent;
 import com.example.ourdiary.member.repository.MemberRepository;
@@ -81,7 +81,7 @@ public class MemberServiceImpl implements MemberService {
         Member member = memberRepository.findByEmail(email)
                 .orElseThrow(() -> new MemberNotFoundException(messageService.get("exception.authentication.email-not-found", email)));
         member.resetPassword(initPassword);
-        domainEventPublisher.publish(PasswordResetEvent.issue(email, initPassword));
+        domainEventPublisher.publish(PasswordResetEvent.issue(email, member.getName(), initPassword));
 
     }
 }

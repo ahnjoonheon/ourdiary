@@ -1,4 +1,4 @@
-package com.example.ourdiary.file;
+package com.example.ourdiary.file.service;
 
 import com.example.ourdiary.exception.CannotCreateDirectoryException;
 import com.example.ourdiary.exception.FileNameNotFoundException;
