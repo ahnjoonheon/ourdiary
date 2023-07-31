@@ -1,4 +1,4 @@
-package com.example.ourdiary.member.entity;
+package com.example.ourdiary.member.domain;
 
 import com.example.ourdiary.BaseEntity;
 import jakarta.persistence.*;
@@ -61,8 +61,8 @@ public class Member extends BaseEntity implements Serializable {
         password = passwordEncoder.encode(password);
     }
 
-    public void resetPassword(String password, PasswordEncoder passwordEncoder) {
-        this.password = passwordEncoder.encode(password);
+    public void resetPassword(String password) {
+        this.password = password;
     }
 
     public void saveProfilePic(String profilePicPath) {

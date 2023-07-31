@@ -1,6 +1,6 @@
-package com.example.ourdiary.sentimentreport.entity;
+package com.example.ourdiary.sentimentreport.domain;
 
-import com.example.ourdiary.entry.entity.Entry;
+import com.example.ourdiary.entry.domain.Entry;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;

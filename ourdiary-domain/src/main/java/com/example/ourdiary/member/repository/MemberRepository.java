@@ -1,6 +1,6 @@
 package com.example.ourdiary.member.repository;
 
-import com.example.ourdiary.member.entity.Member;
+import com.example.ourdiary.member.domain.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

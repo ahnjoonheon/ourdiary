@@ -1,6 +1,6 @@
 package com.example.ourdiary.authentication;
 
-import com.example.ourdiary.member.entity.Member;
+import com.example.ourdiary.member.domain.Member;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 

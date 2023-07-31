@@ -1,4 +1,4 @@
-package com.example.ourdiary.authentication.vo;
+package com.example.ourdiary.authentication.domain;
 
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;

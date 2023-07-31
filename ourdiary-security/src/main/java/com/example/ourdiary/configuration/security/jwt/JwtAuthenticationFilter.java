@@ -1,6 +1,6 @@
 package com.example.ourdiary.configuration.security.jwt;
 
-import com.example.ourdiary.authentication.vo.JwtToken;
+import com.example.ourdiary.authentication.domain.JwtToken;
 import com.example.ourdiary.exception.JwtAuthenticationException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

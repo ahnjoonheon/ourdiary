@@ -1,6 +1,6 @@
 package com.example.ourdiary.authentication.service;
 
-import com.example.ourdiary.authentication.vo.JwtTokens;
+import com.example.ourdiary.authentication.domain.JwtTokens;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 

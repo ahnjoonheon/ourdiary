@@ -1,9 +1,9 @@
 package com.example.ourdiary.authentication.service;
 
-import com.example.ourdiary.authentication.entity.RefreshToken;
+import com.example.ourdiary.authentication.domain.JwtToken;
+import com.example.ourdiary.authentication.domain.JwtTokens;
+import com.example.ourdiary.authentication.domain.RefreshToken;
 import com.example.ourdiary.authentication.repository.RefreshTokenRepository;
-import com.example.ourdiary.authentication.vo.JwtToken;
-import com.example.ourdiary.authentication.vo.JwtTokens;
 import com.example.ourdiary.configuration.security.jwt.JwtTokenProvider;
 import com.example.ourdiary.constant.TokenStatus;
 import com.example.ourdiary.exception.JwtAuthenticationException;

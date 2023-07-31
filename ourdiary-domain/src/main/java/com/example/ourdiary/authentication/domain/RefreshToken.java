@@ -1,7 +1,6 @@
-package com.example.ourdiary.authentication.entity;
+package com.example.ourdiary.authentication.domain;
 
 import com.example.ourdiary.BaseEntity;
-import com.example.ourdiary.authentication.vo.JwtToken;
 import com.example.ourdiary.constant.TokenStatus;
 import jakarta.persistence.*;
 import lombok.AccessLevel;

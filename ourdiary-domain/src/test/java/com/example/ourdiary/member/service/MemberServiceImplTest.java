@@ -1,6 +1,7 @@
 package com.example.ourdiary.member.service;
 
-import com.example.ourdiary.member.entity.Member;
+import com.example.ourdiary.DomainEventPublisher;
+import com.example.ourdiary.member.domain.Member;
 import com.example.ourdiary.member.repository.MemberRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -13,7 +14,6 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.mock.web.MockMultipartFile;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.io.IOException;
 import java.util.List;
@@ -34,6 +34,9 @@ class MemberServiceImplTest {
 
     @Mock
     private Member mockMember;
+
+    @Mock
+    private DomainEventPublisher domainEventPublisher;
 
     @InjectMocks
     private MemberServiceImpl memberService;
@@ -84,6 +87,6 @@ class MemberServiceImplTest {
         memberService.resetPassword("test@example.com");
 
         // Then
-        verify(mockMember).resetPassword(anyString(), any(PasswordEncoder.class));
+        verify(mockMember).resetPassword(anyString());
     }
 }

@@ -1,6 +1,6 @@
 package com.example.ourdiary.member.service;
 
-import com.example.ourdiary.member.entity.Member;
+import com.example.ourdiary.member.domain.Member;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;

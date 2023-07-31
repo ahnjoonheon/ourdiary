@@ -1,7 +1,7 @@
 package com.example.ourdiary.authentication.mapper;
 
+import com.example.ourdiary.authentication.domain.JwtTokens;
 import com.example.ourdiary.authentication.dto.TokenResponse;
-import com.example.ourdiary.authentication.vo.JwtTokens;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 

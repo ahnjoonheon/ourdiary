@@ -1,11 +1,11 @@
 package com.example.ourdiary.authentication.controller;
 
+import com.example.ourdiary.authentication.domain.JwtToken;
 import com.example.ourdiary.authentication.dto.LoginRequest;
 import com.example.ourdiary.authentication.dto.ResetPasswordRequest;
 import com.example.ourdiary.authentication.dto.TokenResponse;
 import com.example.ourdiary.authentication.mapper.AuthenticationMapper;
 import com.example.ourdiary.authentication.service.AuthenticationService;
-import com.example.ourdiary.authentication.vo.JwtToken;
 import com.example.ourdiary.constant.Description;
 import com.example.ourdiary.member.service.MemberService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -51,10 +51,9 @@ public class AuthenticationRestController {
     }
 
     //    @Profile({"prod"})
-    @Operation(summary = "로그인", description = "로그인을 합니다.")
+    @Operation(summary = "로그인", description = Description.API_AUTH_LOGIN)
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200",
-                    description = Description.API_AUTH_LOGIN,
+            @ApiResponse(responseCode = "200", description = "successful operation",
                     content = @Content,
                     headers = @Header(name = "Authorization", description = "Bearer Token", required = true)),
             @ApiResponse(responseCode = "400", description = "**Invalid status value**",
@@ -68,7 +67,7 @@ public class AuthenticationRestController {
         return ResponseEntity.ok().build();
     }
 
-    @Operation(summary = "로그아웃", description = "로그아웃을 합니다.")
+    @Operation(summary = "로그아웃", description = Description.API_AUTH_LOGOUT)
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "successful operation",
                     content = @Content),
@@ -83,10 +82,10 @@ public class AuthenticationRestController {
         return ResponseEntity.ok().build();
     }
 
-    @Operation(summary = "토큰 갱신", description = "토큰을 갱신합니다.")
+    @Operation(summary = "토큰 갱신", description = Description.API_AUTH_REFRESH_TOKEN)
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "successful operation",
-                    content = @Content(schema = @Schema(implementation = JwtToken.class))),
+                    content = @Content),
             @ApiResponse(responseCode = "400", description = "Invalid status value",
                     content = @Content),
             @ApiResponse(responseCode = "404", description = "Order not found",
@@ -98,7 +97,7 @@ public class AuthenticationRestController {
         return ResponseEntity.ok().build();
     }
 
-    @Operation(summary = "비밀번호 초기화", description = "비밀번호를 초기화합니다.")
+    @Operation(summary = "비밀번호 초기화", description = Description.API_AUTH_REFRESH_TOKEN)
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "successful operation",
                     content = @Content),

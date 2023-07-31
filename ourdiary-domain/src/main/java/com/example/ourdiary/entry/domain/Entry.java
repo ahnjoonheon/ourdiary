@@ -1,6 +1,6 @@
-package com.example.ourdiary.entry.entity;
+package com.example.ourdiary.entry.domain;
 
-import com.example.ourdiary.diary.entity.Diary;
+import com.example.ourdiary.diary.domain.Diary;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;

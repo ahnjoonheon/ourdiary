@@ -1,7 +1,7 @@
 package com.example.ourdiary.member.repository;
 
-import com.example.ourdiary.member.entity.Member;
-import com.example.ourdiary.member.entity.QMember;
+import com.example.ourdiary.member.domain.Member;
+import com.example.ourdiary.member.domain.QMember;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;

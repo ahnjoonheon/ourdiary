@@ -1,4 +1,4 @@
-package com.example.ourdiary.member.entity;
+package com.example.ourdiary.member.domain;
 
 import com.example.ourdiary.BaseEntity;
 import com.example.ourdiary.constant.Authority;

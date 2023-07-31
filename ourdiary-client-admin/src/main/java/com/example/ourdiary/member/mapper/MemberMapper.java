@@ -1,7 +1,7 @@
 package com.example.ourdiary.member.mapper;
 
+import com.example.ourdiary.member.domain.Member;
 import com.example.ourdiary.member.dto.*;
-import com.example.ourdiary.member.entity.Member;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 

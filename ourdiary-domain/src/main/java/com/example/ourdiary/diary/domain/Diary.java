@@ -1,6 +1,6 @@
-package com.example.ourdiary.diary.entity;
+package com.example.ourdiary.diary.domain;
 
-import com.example.ourdiary.member.entity.Member;
+import com.example.ourdiary.member.domain.Member;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -17,7 +17,7 @@ public class Diary {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "member_id", nullable = false)
     private Member member;
 
     @Column(name = "diary_name", nullable = false, length = 100)

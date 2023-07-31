@@ -1,4 +1,4 @@
-package com.example.ourdiary.tag.entity;
+package com.example.ourdiary.tag.domain;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
