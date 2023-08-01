@@ -6,6 +6,8 @@ import com.example.ourdiary.notification.service.EmailService;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 
+import java.util.Map;
+
 @Service
 public class PasswordResetEventListener {
     private final EmailService emailService;
@@ -16,10 +18,9 @@ public class PasswordResetEventListener {
 
     @EventListener
     public void handlePasswordResetEvent(PasswordResetEvent event) {
-        MailTemplate.PASSWORD_RESET.contents(event.userName(), event.initPassword());
-        emailService.send(
-                event.email(),
-                MailTemplate.PASSWORD_RESET.subject(event.userName()),
-                MailTemplate.PASSWORD_RESET.contents(event.userName(), event.initPassword()));
+        emailService.send(event.email(), MailTemplate.PASSWORD_RESET.apply(Map.of(
+                "userName", event.userName(),
+                "initPassword", event.initPassword()
+        )));
     }
 }
