@@ -1,3 +1,9 @@
 [submodule "ourdiary-security"]
 	path = ourdiary-security
 	url = https://github.com/aj172019/ourdiary-security.git
+[submodule "ourdiary-common"]
+	path = ourdiary-common
+	url = https://github.com/aj172019/ourdiary-common.git
+[submodule "ourdiary-domain"]
+	path = ourdiary-domain
+	url = https://github.com/aj172019/ourdiary-domain.git
