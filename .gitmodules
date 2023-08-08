@@ -1,0 +1,3 @@
+[submodule "ourdiary-security"]
+	path = ourdiary-security
+	url = https://github.com/aj172019/ourdiary-security.git

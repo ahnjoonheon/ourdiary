@@ -10,7 +10,9 @@ import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -18,6 +20,8 @@ import org.springframework.web.bind.annotation.InitBinder;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Class for handling data binding such as
@@ -26,12 +30,19 @@ import java.time.format.DateTimeFormatter;
  * <br>{@link org.springframework.web.bind.annotation.RequestParam}
  */
 @ControllerAdvice
-public class DataBindingConfiguration {
+public class DataBindingControllerAdvice {
+
     @Value("${ourdiary.date-format}")
     private String datePattern;
 
     @Value("${ourdiary.date-time-format}")
     private String dateTimePattern;
+
+//    public DataBindingControllerAdvice(MappingJackson2HttpMessageConverter converter) {
+//        List<MediaType> supportedMediaTypes = new ArrayList<>(converter.getSupportedMediaTypes());
+//        supportedMediaTypes.add(new MediaType("application", "octet-stream"));
+//        converter.setSupportedMediaTypes(supportedMediaTypes);
+//    }
 
     /**
      * convert empty string to null or trim string
@@ -61,4 +72,6 @@ public class DataBindingConfiguration {
                 .modules(module)
                 .build();
     }
+
+
 }

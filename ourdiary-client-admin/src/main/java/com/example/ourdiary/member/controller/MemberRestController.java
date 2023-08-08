@@ -14,6 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
@@ -41,9 +42,9 @@ public class MemberRestController {
                     content = @Content)
     })
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<MemberResponse> registerUser(@ModelAttribute MemberRequest memberRequest) throws IOException {
+    public ResponseEntity<MemberResponse> registerUser(@RequestPart MemberRequest memberRequest, @RequestPart MultipartFile multipartFile) throws IOException {
         return ResponseEntity.ok(memberMapper.toRegisterMemberResponse(
-                memberService.registerUser(memberMapper.toMember(memberRequest), memberRequest.profilePic()))
+                memberService.registerUser(memberMapper.toMember(memberRequest), multipartFile))
         );
     }
 
@@ -56,10 +57,10 @@ public class MemberRestController {
             @ApiResponse(responseCode = "404", description = "Order not found",
                     content = @Content)
     })
-    @PutMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<MemberResponse> updateUser(@ModelAttribute MemberRequest memberRequest) throws IOException {
+    @PutMapping(consumes = {MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_OCTET_STREAM_VALUE})
+    public ResponseEntity<MemberResponse> updateUser(@RequestPart MemberRequest memberRequest, @RequestPart MultipartFile multipartFile) throws IOException {
         return ResponseEntity.ok(memberMapper.toRegisterMemberResponse(
-                memberService.updateUser(memberMapper.toMember(memberRequest), memberRequest.profilePic()))
+                memberService.updateUser(memberMapper.toMember(memberRequest), multipartFile))
         );
     }
 
